@@ -215,6 +215,48 @@ window.PLATFORM = {
               ],
             },
             {
+              type: "table",
+              title: "Competition (checked 18 Nov 2026)",
+              head: ["Who", "What they offer", "Price", "What it means for us"],
+              rows: [
+                ["Quotation Factory (Eindhoven, since 2018)", "Full quoting platform: STEP, DXF, DWG and PDF; sheet metal, tube, CNC and assemblies; customer portal; ERP/CAM link. 1,200+ users in Europe.", "€1,870/mo + €5,490 setup. Customer portal +€745/mo + €1,940. First year about €28k, or €39k with the portal.", "Same city, same pitch. Our main direct competitor."],
+                ["PROfirst (Widenhorn)", "Quoting from STEP, DXF, DWG, PDF and even sketches; ERP links.", "Not published", "Established Dutch quoting system."],
+                ["CALC3000 (Van den Busschen, BE)", "DXF-based calculation, with a tool to clean up DXFs.", "Not published", "Same approach as our demo."],
+                ["AESC Calculate (SpaceClaim add-on)", "Calculation inside CAD, clean DXF output, engraving detection.", "Not published", "For shops that already use SpaceClaim."],
+                ["CAM/nesting suites: Lantek, SigmaNEST, Radan, BySoft, TRUMPF TruTops Calculate", "Quoting bundled with the shop's nesting/CAM software.", "Usually part of a CAM licence", "Many shops already own one of these. Ask what they use."],
+                ["Cloud tools (mostly US): Tempus Tools, Accuracy Quoting, Paperless Parts", "Self-service quoting from DXF/STEP.", "From $20/mo (Accuracy) and $75–375 per user/mo (Tempus) to about $1,500/mo (Paperless)", "Cheap, but English-only and not tuned to Dutch shops."],
+                ["Producers' own order portals: 247TailorSteel (Sophia), VDL OrderOn, MetalXpress (Kinkelder), Plaatwerk365, One Click Steel, Plaatweb.online", "Customers upload DXF/STEP and get a price within about a minute.", "Free for buyers", "These compete with our customers. They set what buyers now expect: a price in minutes."],
+              ],
+            },
+            {
+              type: "callout",
+              tone: "warn",
+              title: "What this means: instant DXF quoting is not new",
+              text: "The technology alone won't sell. Our demo proves we can build it, not that it's unique. Competing head-on as a SaaS product with Quotation Factory, in its own city, is a weak bet. The opening is small shops (1–3 lasers, 5–30 people) that lose work to 247TailorSteel and OrderOn but can't justify about €28k a year for a quoting platform. Our pilot (€2–6k + €100–250/mo, so about €3–9k in the first year) is roughly a third or less of that.",
+            },
+            {
+              type: "list",
+              title: "How we could be different",
+              items: [
+                "Price and fit for small shops: done-for-you setup that copies their own pricing logic, instead of a big platform they have to configure.",
+                "The pitch to small shops: 'Give your customers a price in minutes, like 247TailorSteel and OrderOn, without a €28k-a-year platform.'",
+                "AI intake of messy requests: reading emails, PDF drawings and parts lists into a quote. Check how well Quotation Factory and PROfirst already do this before betting on it.",
+                "Local and hands-on: engineering students who visit the shop floor, not a software vendor. This fits our services-first strategy.",
+                "In every sales talk, ask: which CAM/nesting software do you use, and does it already quote? If yes, our value is speed and integration, not calculation.",
+              ],
+            },
+            {
+              type: "list",
+              title: "Competition sources",
+              items: [
+                "Quotation Factory pricing: quotationfactory.com/en/pricing",
+                "Dutch quoting tools (PROfirst, CALC3000, AESC Calculate, Trydent, Plaatwerk365): metaalnieuws.nl, did-online.nl, vandenbusschenv.be, aesc.nl",
+                "US/global tools and price ranges: morsa.ai/guides/manufacturing-quoting-software, accuracyquote.com",
+                "Producer portals: 247tailorsteel.com, orderon.com, metalxpress.nl, oneclicksteel.nl, plaatweb.online; VDL news on OrderOn (vdlgroep.com)",
+                "Prices are from vendor pages and guides as of Nov 2026. Confirm them with the vendors before quoting them to clients.",
+              ],
+            },
+            {
               type: "callout",
               tone: "warn",
               title: "The real bottleneck is data, not code",
