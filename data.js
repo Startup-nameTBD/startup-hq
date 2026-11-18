@@ -63,6 +63,84 @@ window.PLATFORM = {
             },
           ],
         },
+        {
+          id: "demo-ranking",
+          title: "Demo Ranking",
+          icon: "▤",
+          intro:
+            "Which demo do we build first? All example projects from the Projects section, scored on seven criteria that matter for the 30-day plan: build a demo in week 2, film it, post it in week 3, then pitch Brainport SMEs. Prices and timelines come from our own estimates. The 1–5 scores are a judgment call, so change the weights to see how the order shifts.",
+          blocks: [
+            {
+              type: "callout",
+              tone: "info",
+              title: "Recommendation: start with sheet-metal instant quotes",
+              text: "It scores top or near the top on almost every criterion. No hardware is needed and public DXF files are enough for a demo. It sits right in our niche, the ROI pitch is easy (30–60 min per quote down to about 2 min), and it is the clearest path to a product. Our CAD-as-code experience from SwageWork gives us a head start.",
+            },
+            {
+              type: "cards",
+              items: [
+                { title: "First demo · Sheet-metal instant quotes", text: "Drop in a DXF, get a priced quote in seconds. Strongest niche fit and product potential, no hardware." },
+                { title: "Second demo · Assembly completeness check", text: "The camera-based demo the 30-day plan already suggests. Quicker to build and less risky to sell than defect detection, and it films just as well." },
+                { title: "Cash flow · Chatbot, invoices, websites", text: "Fast money with short timelines, but any agency can sell these. Keep them as side offers, not as the showcase demo." },
+              ],
+            },
+            {
+              type: "callout",
+              tone: "warn",
+              title: "Check the competition first",
+              text: "Before betting on quoting as a SaaS product, look at the Dutch quoting-software players already in this market and decide how we would be different.",
+            },
+            {
+              type: "ranking",
+              title: "Score matrix",
+              criteria: [
+                { key: "build", label: "Easy to build", short: "Build", desc: "Can we build a convincing demo in about a week, without a client or their data?" },
+                { key: "film", label: "Looks good on video", short: "Video", desc: "Does it make a strong 30-second clip for LinkedIn and the portfolio site?" },
+                { key: "niche", label: "Fits our niche", short: "Niche", desc: "Does it show that we understand machines, sensors, CAD and manufacturing, rather than generic AI?" },
+                { key: "money", label: "Money", short: "Money", desc: "Deal size plus monthly recurring revenue, from our own price estimates." },
+                { key: "speed", label: "Speed to first paid client", short: "Speed", desc: "Project length, sales cycle and how much trust a client needs before saying yes." },
+                { key: "product", label: "Product potential", short: "Product", desc: "Could the same solution be resold to many clients as a SaaS product (step 3 of our strategy)?" },
+                { key: "risk", label: "Low risk", short: "Low risk", desc: "Lower liability and less that can go wrong at the client's site." },
+              ],
+              // project = id in the Projects section, used to link each row to its example projects
+              items: [
+                { name: "Sheet-metal instant quotes", project: "engauto", price: "€2–6k + €100–250/mo", time: "4–8 wk", s: { build: 5, film: 4, niche: 5, money: 4, speed: 4, product: 5, risk: 3 } },
+                { name: "Assembly completeness check", project: "vision", price: "€1.5–4k + €50–150/mo", time: "2–4 wk", s: { build: 5, film: 5, niche: 4, money: 3, speed: 4, product: 2, risk: 4 } },
+                { name: "End-of-line defect detection", project: "vision", price: "€2–6k + €100–300/mo", time: "3–6 wk", s: { build: 4, film: 5, niche: 4, money: 4, speed: 3, product: 3, risk: 2 } },
+                { name: "Retrofit vibration monitoring", project: "sensors", price: "€1.5–5k + €30–100/mo per machine", time: "4–8 wk", s: { build: 4, film: 4, niche: 5, money: 3, speed: 2, product: 4, risk: 3 } },
+                { name: "Parametric configurator (CAD + BOM)", project: "engauto", price: "€3–10k + support", time: "4–10 wk", s: { build: 4, film: 4, niche: 5, money: 5, speed: 1, product: 2, risk: 3 } },
+                { name: "Website chatbot", project: "general", price: "€0.5–1.5k + €30–100/mo", time: "1–2 wk", s: { build: 5, film: 3, niche: 1, money: 1, speed: 5, product: 3, risk: 5 } },
+                { name: "OEE dashboard from PLC data", project: "sensors", price: "€2–6k + €100–300/mo", time: "3–6 wk", s: { build: 2, film: 3, niche: 4, money: 4, speed: 3, product: 4, risk: 1 } },
+                { name: "Machine manual generator", project: "testdocs", price: "€2.5–7k + €100–300/mo", time: "4–8 wk", s: { build: 3, film: 2, niche: 4, money: 4, speed: 2, product: 4, risk: 2 } },
+                { name: "Automated test bench", project: "testdocs", price: "€2–6k per product", time: "3–6 wk", s: { build: 3, film: 3, niche: 5, money: 3, speed: 3, product: 2, risk: 2 } },
+                { name: "Invoice & email automation", project: "general", price: "€0.75–2.5k + €50–150/mo", time: "1–3 wk", s: { build: 5, film: 2, niche: 1, money: 2, speed: 5, product: 2, risk: 4 } },
+                { name: "Quick website / MVP", project: "general", price: "€0.3–4k, no recurring", time: "3 days–3 wk", s: { build: 5, film: 2, niche: 1, money: 2, speed: 5, product: 1, risk: 5 } },
+              ],
+            },
+            {
+              type: "checklist",
+              id: "demo-ranking-decide",
+              title: "Decide our first demo",
+              items: [
+                "Every founder has reviewed the ranking",
+                "Agreed on which criteria matter most (weights)",
+                "Checked existing competitors for the top pick",
+                "First demo chosen and added to the 30-day plan",
+              ],
+            },
+            {
+              type: "list",
+              title: "How to read this",
+              items: [
+                "5 is always best. Click a column header to sort by that criterion.",
+                "The total is the weighted average scaled to 100, so totals stay comparable when weights change.",
+                "\"Money\" combines deal size and any monthly recurring fee from our price estimates.",
+                "\"Low risk\" is about liability and what can go wrong at the client: missed defects, wrong prices, safety-critical text, touching PLCs or test equipment.",
+                "Weights only change your own view and reset when you reload. Write agreed weights in the notes below.",
+              ],
+            },
+          ],
+        },
       ],
     },
 

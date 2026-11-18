@@ -97,8 +97,52 @@
         return editableTable("budget", b.title, [["item", "Item", "text"], ["cost", "€ / month", "number"]], `<div class="total">Total: <strong>€${total.toFixed(2)}</strong> / month</div>`);
       }
       case "pipeline": return pipelineBlock(b.title);
+      case "ranking": return rankingBlock(b);
       default: return "";
     }
+  }
+
+  // Ranking matrix: weights and sort order are per-viewer and not saved.
+  const rank = { weights: {}, sort: "total" };
+  function rankingBlock(b) {
+    b.criteria.forEach((c) => { if (rank.weights[c.key] === undefined) rank.weights[c.key] = 1; });
+    const total = (it) => {
+      let sum = 0, w = 0;
+      b.criteria.forEach((c) => { sum += it.s[c.key] * rank.weights[c.key]; w += rank.weights[c.key]; });
+      return w ? Math.round((sum / (w * 5)) * 100) : 0;
+    };
+    const rows = b.items.map((it) => ({ it, t: total(it) }));
+    rows.sort((a, z) => rank.sort === "total" ? z.t - a.t : (z.it.s[rank.sort] - a.it.s[rank.sort]) || (z.t - a.t));
+
+    const weights = `<div class="rank-controls">${b.criteria.map((c) => `<label class="rank-weight">${esc(c.short)}
+      <select data-rank-weight="${c.key}">${[0, 1, 2, 3].map((v) => `<option value="${v}" ${rank.weights[c.key] === v ? "selected" : ""}>×${v}</option>`).join("")}</select></label>`).join("")}
+      <button class="btn rank-reset" data-rank-reset="1">Reset</button></div>`;
+
+    const cols = [{ key: "total", short: "Total", label: "total" }, ...b.criteria];
+    const head = `<tr><th>#</th><th>Project</th>${cols.map((c) => `<th class="rank-col ${rank.sort === c.key ? "sorted" : ""}"><button data-rank-sort="${c.key}" title="Sort by ${esc(c.label)}">${esc(c.short)}</button></th>`).join("")}</tr>`;
+
+    let pos = 0, prev = null;
+    const body = rows.map(({ it, t }, i) => {
+      const v = rank.sort === "total" ? t : it.s[rank.sort];
+      if (v !== prev) { pos = i + 1; prev = v; }
+      const proj = P.projects.find((p) => p.id === it.project);
+      return `<tr>
+        <td class="rank-pos">${pos}</td>
+        <td class="rank-name"><a href="#project-${esc(it.project)}/examples">${esc(it.name)}</a><span>${esc(proj ? proj.title : "")} · ${esc(it.price)} · ${esc(it.time)}</span></td>
+        <td class="rank-total">${t}<div class="bar"><div style="width:${t}%"></div></div></td>
+        ${b.criteria.map((c) => `<td class="rank-cell h${it.s[c.key]}">${it.s[c.key]}</td>`).join("")}
+      </tr>`;
+    }).join("");
+
+    const legend = `<div class="rank-legend">Score ${[1, 2, 3, 4, 5].map((n) => `<b class="h${n}">${n}</b>`).join("")}<span>· 5 is always best · click a column to sort · weights only change your own view</span></div>`;
+
+    const crit = `<div class="grid">${b.criteria.map((c) => {
+      const top = [...b.items].sort((a, z) => (z.s[c.key] - a.s[c.key]) || (total(z) - total(a))).slice(0, 4);
+      return `<div class="mini-card"><h4>${esc(c.label)}</h4><p>${esc(c.desc)}</p><ol class="list rank-top">${top.map((it) => `<li>${esc(it.name)} <span>(${it.s[c.key]})</span></li>`).join("")}</ol></div>`;
+    }).join("")}</div>`;
+
+    return card(b.title, weights + `<div class="table-wrap"><table class="rank"><thead>${head}</thead><tbody>${body}</tbody></table></div>` + legend)
+      + card("What each criterion means", crit);
   }
 
   const card = (title, body) => `<section class="card">${title ? `<h3>${esc(title)}</h3>` : ""}${body}</section>`;
@@ -255,6 +299,7 @@
     if (t.dataset.check) { state.checks[t.dataset.check] = t.checked; rerender("check:" + t.dataset.check); }
     else if (t.dataset.custom) { state.custom[t.dataset.custom][t.dataset.i].done = t.checked; rerender("custom:" + t.dataset.custom); }
     else if (t.dataset.status) { state.status[t.dataset.status] = t.value; rerender("status:" + t.dataset.status); }
+    else if (t.dataset.rankWeight) { rank.weights[t.dataset.rankWeight] = Number(t.value); paint(); }
     else if (t.dataset.table && t.tagName === "SELECT") { state[t.dataset.table][t.dataset.i][t.dataset.f] = t.value; rerender("table:" + t.dataset.table); }
   });
   document.addEventListener("input", (e) => {
@@ -280,7 +325,9 @@
   document.addEventListener("click", (e) => {
     const t = e.target.closest("button");
     if (!t) return;
-    if (t.dataset.delCustom) { e.preventDefault(); state.custom[t.dataset.delCustom].splice(t.dataset.i, 1); rerender("custom:" + t.dataset.delCustom); }
+    if (t.dataset.rankSort) { rank.sort = t.dataset.rankSort; paint(); }
+    else if (t.dataset.rankReset) { Object.keys(rank.weights).forEach((k) => (rank.weights[k] = 1)); rank.sort = "total"; paint(); }
+    else if (t.dataset.delCustom) { e.preventDefault(); state.custom[t.dataset.delCustom].splice(t.dataset.i, 1); rerender("custom:" + t.dataset.delCustom); }
     else if (t.dataset.addRow) {
       const k = t.dataset.addRow;
       state[k].push(k === "pipeline" ? { company: "", contact: "", project: "—", stage: "Lead", value: "", notes: "" } : {});
